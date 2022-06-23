@@ -1,0 +1,4 @@
+{
+    "port":":8000",
+    "dbUrl":"postgres://postgres:root@localhost:5432/books"
+}

@@ -1,31 +1,32 @@
 package config
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/spf13/viper"
 )
 
-// Config struct
-type Config struct {
-	Port  string `mapstructure:"PORT"`
-	DBUrl string `mapstructure:"DB_URL"`
+// DBConfig struct
+type DBConfig struct {
+	Port  string 
+	DBUrl string
 }
 
-//LoadConfig is a function to help us load configurations
-func LoadConfig() (c Config, err error) {
-	viper.SetConfigName("dev")
-	viper.SetConfigType("env")
-	viper.AddConfigPath("./pkg/common/envs")
+//LoadDBConfig helps us to load DB configurations
+func LoadDBConfig() (c DBConfig, err error) {
+	vp := viper.New()
+	vp.SetConfigName("config")
+	vp.SetConfigType("json")
+	vp.AddConfigPath("../pkg/common/envs")
 
-	viper.AutomaticEnv()
-
-	err = viper.ReadInConfig()
+	err = vp.ReadInConfig()
 
 	if err != nil {
-		panic(fmt.Errorf("fatal error config file: %w", err))
+		log.Fatalln(err)
 	}
 
-	err = viper.Unmarshal(&c)
-	return
+	c.Port = vp.GetString("port")
+	c.DBUrl = vp.GetString("dbUrl")
+
+	return c, err
 }

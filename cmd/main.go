@@ -1,21 +1,23 @@
 package main
 
 import (
+	"api/basic-rest-api/pkg/common/config"
 	"api/basic-rest-api/pkg/common/db"
-	"fmt"
+	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
 )
 
 func main() {
-	viper.SetConfigFile("./pkg/common/envs/.env")
-	viper.ReadInConfig()
 
-	port := viper.Get("PORT").(string)
-	dbURL := viper.Get("DB_URL").(string)
+	config, err := config.LoadDBConfig()
 
-	fmt.Println(port, dbURL)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	port := config.Port
+	dbURL := config.DBUrl
 
 	r := gin.Default()
 
