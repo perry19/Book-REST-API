@@ -2,20 +2,15 @@ package books
 
 import (
 	"api/basic-rest-api/pkg/common/models"
+	"api/basic-rest-api/pkg/common/requestbody"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-type BookRequestBody struct {
-	Title       string `json:"title"`
-	Author      string `json:"author"`
-	Description string `json:"description"`
-}
-
 func (h handler) AddBook(c *gin.Context) {
-	body := BookRequestBody{}
-
+	body := requestbody.BookRequestBody{}
+	
 	if err := c.BindJSON(&body); err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
 		return
