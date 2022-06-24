@@ -27,9 +27,9 @@ func (h handler) UpdateBook(c *gin.Context) {
 		return
 	}
 
-	body.Title = book.Title
-	body.Author = book.Author
-	body.Description = book.Description
+	book.Title = body.Title 
+	book.Author = body.Author 
+	book.Description = body.Description
 
 	h.DB.Save(&book)
 
