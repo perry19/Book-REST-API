@@ -1,6 +1,7 @@
 package main
 
 import (
+	"api/basic-rest-api/pkg/books"
 	"api/basic-rest-api/pkg/common/config"
 	"api/basic-rest-api/pkg/common/db"
 	"log"
@@ -18,17 +19,11 @@ func main() {
 
 	port := config.Port
 	dbURL := config.DBUrl
-	message := "Hello World"
+
 	r := gin.Default()
+	h := db.Init(dbURL)
 
-	db.Init(dbURL)
+	books.RegisterRoutes(r, h)
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"port":  port,
-			"dbUrl": dbURL,
-			"message":message,
-		})
-	})
 	r.Run(port)
 }
