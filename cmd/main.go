@@ -18,7 +18,7 @@ func main() {
 
 	port := config.Port
 	dbURL := config.DBUrl
-
+	message := "Hello World"
 	r := gin.Default()
 
 	db.Init(dbURL)
@@ -27,6 +27,7 @@ func main() {
 		c.JSON(200, gin.H{
 			"port":  port,
 			"dbUrl": dbURL,
+			"message":message,
 		})
 	})
 	r.Run(port)
